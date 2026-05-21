@@ -1,24 +1,8 @@
 // =====================================
-// LOAD QUESTIONS.JSON
-// =====================================
-
-let quizData = {};
-
-fetch("questions.json")
-.then(response => response.json())
-.then(data => {
-
-    quizData = data;
-
-});
-
-// =====================================
 // GLOBAL VARIABLES
 // =====================================
 
-let usersData = {};
-
-let currentUser = null;
+let quizData = {};
 
 let currentQuiz = "";
 let currentSubject = "";
@@ -27,158 +11,46 @@ let timer;
 let timeRemaining = 60;
 
 // =====================================
-// LOAD USERS
+// LOAD QUESTIONS.JSON
 // =====================================
 
-function loadUsers() {
+async function loadQuestions() {
 
-    usersData =
-        JSON.parse(
-            localStorage.getItem("quizUsers")
-        ) || {};
+    try {
 
-}
+        const response =
+            await fetch("questions.json");
 
-loadUsers();
+        quizData =
+            await response.json();
 
-// =====================================
-// SAVE USERS
-// =====================================
-
-function saveUsers() {
-
-    localStorage.setItem(
-        "quizUsers",
-        JSON.stringify(usersData)
-    );
-
-}
-
-// =====================================
-// SIGNUP
-// =====================================
-
-function signup() {
-
-    const username =
-        document.getElementById(
-            "signupUsername"
-        ).value.trim();
-
-    const password =
-        document.getElementById(
-            "signupPassword"
-        ).value.trim();
-
-    if (!username || !password) {
-
-        alert("Fill all fields");
-
-        return;
+        renderQuizNavigation();
 
     }
 
-    if (usersData[username]) {
+    catch(error) {
 
-        alert("User already exists");
+        console.error(error);
 
-        return;
-
-    }
-
-    usersData[username] = {
-
-        password: password,
-
-        performance: {}
-
-    };
-
-    saveUsers();
-
-    alert("Account created successfully");
-
-}
-
-// =====================================
-// LOGIN
-// =====================================
-
-function login() {
-
-    const username =
         document.getElementById(
-            "loginUsername"
-        ).value.trim();
+            "quizNavigation"
+        ).innerHTML = `
 
-    const password =
-        document.getElementById(
-            "loginPassword"
-        ).value.trim();
+            <h2 style="color:red;">
+                Failed to load questions.json
+            </h2>
 
-    if (!usersData[username]) {
+            <p>
+                Use Live Server or GitHub Pages.
+            </p>
 
-        alert("User not found");
-
-        return;
-
-    }
-
-    if (
-        usersData[username].password
-        !== password
-    ) {
-
-        alert("Wrong password");
-
-        return;
+        `;
 
     }
 
-    currentUser = username;
-
-    document.getElementById(
-        "authContainer"
-    ).classList.add("hidden");
-
-    document.getElementById(
-        "dashboard"
-    ).classList.remove("hidden");
-
-    document.getElementById(
-        "welcomeText"
-    ).innerText =
-    `Welcome ${username}`;
-
-    renderQuizNavigation();
-
-    loadScores();
-
 }
 
-// =====================================
-// LOGOUT
-// =====================================
-
-function logout() {
-
-    clearInterval(timer);
-
-    currentUser = null;
-
-    document.getElementById(
-        "dashboard"
-    ).classList.add("hidden");
-
-    document.getElementById(
-        "quizContainer"
-    ).classList.add("hidden");
-
-    document.getElementById(
-        "authContainer"
-    ).classList.remove("hidden");
-
-}
+loadQuestions();
 
 // =====================================
 // QUIZ NAVIGATION
@@ -198,8 +70,9 @@ function renderQuizNavigation() {
         const section =
             document.createElement("div");
 
-        section.innerHTML =
-        `<h2>${quizName}</h2>`;
+        section.innerHTML = `
+            <h2>${quizName}</h2>
+        `;
 
         const grid =
             document.createElement("div");
@@ -268,6 +141,10 @@ function loadQuiz(quizName, subject) {
         );
 
     questionArea.innerHTML = "";
+
+    document.getElementById(
+        "result"
+    ).innerHTML = "";
 
     questions.forEach((q, index) => {
 
@@ -382,83 +259,6 @@ function submitQuiz() {
         "result"
     ).innerText =
     `You scored ${score}/${questions.length}`;
-
-    if (
-        !usersData[currentUser]
-        .performance[currentQuiz]
-    ) {
-
-        usersData[currentUser]
-        .performance[currentQuiz] = {};
-
-    }
-
-    usersData[currentUser]
-    .performance[currentQuiz][currentSubject]
-    = score;
-
-    saveUsers();
-
-    loadScores();
-
-}
-
-// =====================================
-// LOAD SCORES
-// =====================================
-
-function loadScores() {
-
-    const scoreBoard =
-        document.getElementById(
-            "scoreBoard"
-        );
-
-    scoreBoard.innerHTML = "";
-
-    const performance =
-        usersData[currentUser]
-        .performance;
-
-    for (let quiz in performance) {
-
-        const quizDiv =
-            document.createElement("div");
-
-        quizDiv.innerHTML =
-        `<h3>${quiz}</h3>`;
-
-        for (
-            let subject
-            in performance[quiz]
-        ) {
-
-            const div =
-                document.createElement("div");
-
-            div.className =
-                "score-item";
-
-            div.innerHTML = `
-
-                <strong>
-                    ${subject}
-                </strong>
-
-                <br>
-
-                Marks:
-                ${performance[quiz][subject]}
-
-            `;
-
-            quizDiv.appendChild(div);
-
-        }
-
-        scoreBoard.appendChild(quizDiv);
-
-    }
 
 }
 
