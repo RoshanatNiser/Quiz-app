@@ -1,55 +1,50 @@
 # Quiz App with JSON Question Creator
 
-A complete browser-based Quiz Web Application with:
+A browser-based Quiz Web Application that dynamically loads quizzes from a `questions.json` file and includes a GUI-based JSON Question Creator.
 
-* User Authentication
-* Quiz Navigation System
-* Timer-based quizzes
-* Performance tracking
-* Dynamic question loading from `questions.json`
-* JSON Question Creator GUI
-* Multiple quizzes and subjects
-* Local browser storage persistence
+The project supports:
+
+* Multiple quizzes
+* Multiple subjects
+* MCQ questions
+* Countdown timer
+* Dynamic question loading
+* JSON-based quiz management
 * Responsive UI
 
 ---
 
 # Features
 
-## Quiz System
+## Quiz Application
 
-* Multiple quizzes
-* Multiple subjects per quiz
+* Dynamic quiz loading from `questions.json`
+* Multiple quizzes and subjects
 * MCQ-based questions
-* Dynamic question rendering
-* Automatic answer checking
-* Score calculation
-* Timer system
-* Performance tracking
+* Timer for each quiz
+* Automatic score calculation
+* Responsive interface
+* Browser-based execution
+* No backend required
 
 ---
 
-## Authentication
+## Questions JSON Creator
 
-* Sign Up
-* Login
-* Logout
-* Persistent account storage using browser `localStorage`
+`Questions JSON Creater.html` provides a GUI for creating quiz data.
 
----
-
-## JSON Question Creator
-
-GUI tool to:
+Features:
 
 * Create quizzes
-* Create subjects
+* Add subjects
 * Add questions
 * Add options
 * Select correct answers
-* Preview generated questions
-* Export `questions.json`
-* Download JSON file
+* Live preview
+* Copy JSON
+* Download `questions.json`
+
+Compatible with the quiz application structure. 
 
 ---
 
@@ -77,43 +72,44 @@ Main Quiz Application UI.
 
 Contains:
 
-* Login page
-* Signup page
-* Dashboard
 * Quiz navigation
 * Quiz page
-* Timer display
+* Timer
+* Question rendering area
+* Result display
 
 ---
 
 ## `style.css`
 
-Main styling for:
+Styling for:
 
 * Layout
 * Buttons
 * Quiz cards
-* Forms
-* Responsive UI
+* Responsive design
+* Timer UI
 
 ---
 
 ## `script.js`
 
-Core quiz logic:
+Core application logic:
 
-* Authentication
-* Timer system
-* Question rendering
-* Quiz evaluation
-* Score saving
-* Local storage handling
+* Loads `questions.json`
+* Renders quiz navigation
+* Loads questions dynamically
+* Handles timer
+* Calculates scores
+* Navigation between pages
 
 ---
 
 ## `questions.json`
 
-Stores all quiz questions in this format:
+Stores all quiz data.
+
+Example structure:
 
 ```json
 {
@@ -142,49 +138,81 @@ Stores all quiz questions in this format:
 
 ## `Questions JSON Creater.html`
 
-GUI application to generate compatible `questions.json` files.
+GUI tool for generating compatible `questions.json` files.
 
-Features:
+Supports:
 
-* Create quizzes
-* Add subjects
-* Add questions
-* Download JSON
-* Copy JSON
+* Quiz creation
+* Subject creation
+* Question creation
+* JSON export
+* JSON download
 
 ---
 
 # How To Run
 
-## Step 1
+## Option 1 — VS Code Live Server (Recommended)
 
-Clone repository:
+### Step 1
 
-```bash
-git clone <your-repository-url>
-```
+Install:
 
-or download ZIP.
+[Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer&utm_source=chatgpt.com)
 
 ---
 
-## Step 2
+### Step 2
 
-Open folder.
+Open project folder in VS Code.
 
 ---
 
-## Step 3
+### Step 3
 
-Open:
+Right click:
 
 ```text
 index.html
 ```
 
-in browser.
+and select:
 
-No installation required.
+```text
+Open with Live Server
+```
+
+---
+
+# Why Live Server Is Needed
+
+The application uses:
+
+```javascript
+fetch("questions.json")
+```
+
+Browsers block local JSON loading when opened directly using:
+
+```text
+file:///
+```
+
+Live Server solves this by creating a local HTTP server.
+
+---
+
+## Option 2 — GitHub Pages
+
+Upload repository to GitHub and enable:
+
+```text
+Settings
+→ Pages
+→ Deploy from branch
+```
+
+Then the app works online.
 
 ---
 
@@ -222,38 +250,20 @@ Quiz-2
 
 ---
 
-# User Data Storage
-
-Currently uses:
-
-```javascript
-localStorage
-```
-
-to store:
-
-* usernames
-* passwords
-* quiz performance
-
-Data persists in the browser.
-
----
-
 # Timer System
 
 Each quiz automatically starts a timer.
 
-Default:
-
-```javascript
-60 seconds
-```
-
-Modify in `script.js`:
+Default value:
 
 ```javascript
 timeRemaining = 60;
+```
+
+Modify inside:
+
+```text
+script.js
 ```
 
 ---
@@ -264,44 +274,23 @@ timeRemaining = 60;
 * CSS3
 * Vanilla JavaScript
 * JSON
-* Browser LocalStorage
 
 ---
 
 # Future Improvements
 
-Possible future upgrades:
+Possible upgrades:
 
-* Firebase Authentication
-* Online Database
-* Global Login
-* Leaderboards
-* Admin Panel
-* Randomized Questions
-* Negative Marking
-* Question Shuffling
-* Dark Mode
-* Mobile App
-* Cloud Sync
+* Firebase integration
+* Online leaderboard
+* User accounts
+* Cloud save
+* Dark mode
+* Randomized questions
+* Negative marking
+* Question shuffling
+* Admin dashboard
 * Backend API
-
----
-
-# Security Notice
-
-Current version stores user data locally in browser storage.
-
-This means:
-
-* accounts are device-specific
-* passwords are not encrypted
-* no cloud synchronization
-
-For production use:
-
-* use Firebase/Auth backend
-* hash passwords
-* use secure databases
 
 ---
 
