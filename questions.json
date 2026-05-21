@@ -1,116 +1,261 @@
 {
-  "physics": {
-    "1": [
+  "Quiz-1": {
+
+    "Physics": [
+
       {
-        "question": "Which of the following phenomena is responsible for the twinkling of stars?",
+        "question": "SI unit of force?",
         "options": [
-          "Total internal reflection",
-          "Atmospheric refraction",
-          "Scattering of light",
-          "Interference of light"
+          "Newton",
+          "Joule",
+          "Watt",
+          "Pascal"
         ],
-        "answer": "Atmospheric refraction"
+        "answer": "Newton"
       },
+
       {
-        "question": "The escape velocity from the Earth's surface is approximately:",
+        "question": "Speed of light in vacuum?",
         "options": [
-          "A) $9.8\\text{ km/s}$",
-          "B) $11.2\\text{ km/s}$",
-          "C) $5.6\\text{ km/s}$",
-          "D) $42.1\\text{ km/s}$"
+          "3x10^8 m/s",
+          "300 m/s",
+          "1500 m/s",
+          "1000 m/s"
         ],
-        "answer": "B) $11.2\\text{ km/s}$"
+        "answer": "3x10^8 m/s"
+      },
+
+      {
+        "question": "Who proposed the theory of relativity?",
+        "options": [
+          "Newton",
+          "Einstein",
+          "Bohr",
+          "Tesla"
+        ],
+        "answer": "Einstein"
       }
+
     ],
-    "2": [
+
+    "Chemistry": [
+
       {
-        "question": "If the distance between two masses is doubled, the gravitational force between them becomes:",
+        "question": "Chemical symbol of Oxygen?",
         "options": [
-          "A) Double",
-          "B) Half",
-          "C) Four times",
-          "D) One-fourth"
+          "O",
+          "H",
+          "N",
+          "C"
         ],
-        "answer": "D) One-fourth"
+        "answer": "O"
+      },
+
+      {
+        "question": "pH value of pure water?",
+        "options": [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "answer": "7"
+      },
+
+      {
+        "question": "Atomic number of Carbon?",
+        "options": [
+          "4",
+          "6",
+          "8",
+          "12"
+        ],
+        "answer": "6"
       }
+
     ],
-    "3": [
+
+    "Math": [
+
       {
-        "question": "What is the SI unit of electrical conductivity?",
+        "question": "2 + 2 = ?",
         "options": [
-          "A) Ohm-meter",
-          "B) Siemens per meter (S/m)",
-          "C) Tesla",
-          "D) Henry"
+          "3",
+          "4",
+          "5",
+          "6"
         ],
-        "answer": "B) Siemens per meter (S/m)"
+        "answer": "4"
+      },
+
+      {
+        "question": "Derivative of x^2?",
+        "options": [
+          "x",
+          "2x",
+          "x^2",
+          "2"
+        ],
+        "answer": "2x"
+      },
+
+      {
+        "question": "Value of pi approximately?",
+        "options": [
+          "2.14",
+          "3.14",
+          "4.13",
+          "1.34"
+        ],
+        "answer": "3.14"
       }
+
+    ],
+
+    "Biology": [
+
+      {
+        "question": "Basic unit of life?",
+        "options": [
+          "Cell",
+          "Atom",
+          "Protein",
+          "Organ"
+        ],
+        "answer": "Cell"
+      },
+
+      {
+        "question": "Human heart has how many chambers?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "answer": "4"
+      },
+
+      {
+        "question": "Which organ purifies blood?",
+        "options": [
+          "Heart",
+          "Liver",
+          "Kidney",
+          "Lungs"
+        ],
+        "answer": "Kidney"
+      }
+
     ]
+
   },
-  "chemistry": {
-    "1": [
+
+  "Quiz-2": {
+
+    "Physics": [
+
       {
-        "question": "Which of the following is the most electronegative element in the periodic table?",
+        "question": "Unit of electric current?",
         "options": [
-          "A) Oxygen",
-          "B) Chlorine",
-          "C) Fluorine",
-          "D) Nitrogen"
+          "Volt",
+          "Ampere",
+          "Ohm",
+          "Watt"
         ],
-        "answer": "C) Fluorine"
+        "answer": "Ampere"
+      },
+
+      {
+        "question": "Acceleration due to gravity on Earth?",
+        "options": [
+          "9.8 m/s²",
+          "5 m/s²",
+          "15 m/s²",
+          "1 m/s²"
+        ],
+        "answer": "9.8 m/s²"
       }
+
     ],
-    "2": [
+
+    "Chemistry": [
+
       {
-        "question": "What is the oxidation state of Chromium ($\\text{Cr}$) in Potassium Dichromate ($\\text{K}_2\\text{Cr}_2\\text{O}_7$)?",
+        "question": "Gas used in balloons?",
         "options": [
-          "A) +4",
-          "B) +5",
-          "C) +6",
-          "D) +7"
+          "Hydrogen",
+          "Oxygen",
+          "Helium",
+          "Nitrogen"
         ],
-        "answer": "C) +6"
-      }
-    ]
-  },
-  "mathematics": {
-    "1": [
+        "answer": "Helium"
+      },
+
       {
-        "question": "What is the value of $\\lim_{x \\to 0} \\frac{\\sin x}{x}$?",
+        "question": "H2O is chemical formula of?",
         "options": [
-          "A) 0",
-          "B) 1",
-          "C) $\\infty$",
-          "D) Undefined"
+          "Hydrogen",
+          "Salt",
+          "Water",
+          "Oxygen"
         ],
-        "answer": "B) 1"
+        "answer": "Water"
       }
+
     ],
-    "2": [
+
+    "Math": [
+
       {
-        "question": "If a matrix $A$ is of order $2 \\times 3$ and matrix $B$ is of order $3 \\times 4$, what is the order of the matrix $AB$?",
+        "question": "Square root of 64?",
         "options": [
-          "A) $3 \\times 3$",
-          "B) $2 \\times 4$",
-          "C) $4 \\times 2$",
-          "D) The product cannot be calculated"
+          "6",
+          "7",
+          "8",
+          "9"
         ],
-        "answer": "B) $2 \\times 4$"
-      }
-    ]
-  },
-  "biology": {
-    "1": [
+        "answer": "8"
+      },
+
       {
-        "question": "Which organelle is known as the \"powerhouse of the cell\"?",
+        "question": "10 × 5 = ?",
         "options": [
-          "A) Golgi apparatus",
-          "B) Mitochondrion",
-          "C) Nucleus",
-          "D) Ribosome"
+          "15",
+          "20",
+          "50",
+          "100"
         ],
-        "answer": "B) Mitochondrion"
+        "answer": "50"
       }
+
+    ],
+
+    "Biology": [
+
+      {
+        "question": "Largest organ in human body?",
+        "options": [
+          "Heart",
+          "Skin",
+          "Liver",
+          "Brain"
+        ],
+        "answer": "Skin"
+      },
+
+      {
+        "question": "Plants prepare food by?",
+        "options": [
+          "Respiration",
+          "Digestion",
+          "Photosynthesis",
+          "Transpiration"
+        ],
+        "answer": "Photosynthesis"
+      }
+
     ]
+
   }
 }
