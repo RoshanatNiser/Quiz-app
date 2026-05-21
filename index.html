@@ -14,91 +14,18 @@
 </head>
 <body>
 
-    <!-- AUTH -->
-
-    <div class="container"
-         id="authContainer">
-
-        <div class="tabs">
-
-            <button id="signupTab"
-                    class="active">
-                Sign Up
-            </button>
-
-            <button id="loginTab">
-                Login
-            </button>
-
-        </div>
-
-        <!-- SIGNUP -->
-
-        <div id="signupForm">
-
-            <h2>Create Account</h2>
-
-            <input type="text"
-                   id="signupUsername"
-                   placeholder="Enter Username">
-
-            <input type="password"
-                   id="signupPassword"
-                   placeholder="Enter Password">
-
-            <button onclick="signup()">
-                Sign Up
-            </button>
-
-        </div>
-
-        <!-- LOGIN -->
-
-        <div id="loginForm"
-             class="hidden">
-
-            <h2>Login</h2>
-
-            <input type="text"
-                   id="loginUsername"
-                   placeholder="Enter Username">
-
-            <input type="password"
-                   id="loginPassword"
-                   placeholder="Enter Password">
-
-            <button onclick="login()">
-                Login
-            </button>
-
-        </div>
-
-    </div>
-
     <!-- DASHBOARD -->
 
-    <div class="container hidden"
+    <div class="container"
          id="dashboard">
 
         <div class="topbar">
 
-            <h2 id="welcomeText"></h2>
-
-            <button onclick="logout()">
-                Logout
-            </button>
+            <h1>Quiz Navigation</h1>
 
         </div>
 
-        <h1>Quiz Navigation</h1>
-
         <div id="quizNavigation"></div>
-
-        <hr>
-
-        <h2>Your Performance</h2>
-
-        <div id="scoreBoard"></div>
 
     </div>
 
