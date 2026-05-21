@@ -1,89 +1,16 @@
 // =====================================
-// QUESTIONS DATA
+// LOAD QUESTIONS.JSON
 // =====================================
 
-const quizData = {
+let quizData = {};
 
-    "Quiz-1": {
+fetch("questions.json")
+.then(response => response.json())
+.then(data => {
 
-        "Physics": [
+    quizData = data;
 
-            {
-                "question": "SI unit of force?",
-                "options": [
-                    "Newton",
-                    "Joule",
-                    "Watt",
-                    "Pascal"
-                ],
-                "answer": "Newton"
-            },
-
-            {
-                "question": "Speed of light?",
-                "options": [
-                    "3x10^8",
-                    "300",
-                    "1000",
-                    "1500"
-                ],
-                "answer": "3x10^8"
-            }
-
-        ],
-
-        "Chemistry": [
-
-            {
-                "question": "Chemical symbol of Oxygen?",
-                "options": [
-                    "O",
-                    "H",
-                    "N",
-                    "C"
-                ],
-                "answer": "O"
-            }
-
-        ]
-
-    },
-
-    "Quiz-2": {
-
-        "Math": [
-
-            {
-                "question": "2 + 2 = ?",
-                "options": [
-                    "3",
-                    "4",
-                    "5",
-                    "6"
-                ],
-                "answer": "4"
-            }
-
-        ],
-
-        "Biology": [
-
-            {
-                "question": "Basic unit of life?",
-                "options": [
-                    "Cell",
-                    "Atom",
-                    "Protein",
-                    "Organ"
-                ],
-                "answer": "Cell"
-            }
-
-        ]
-
-    }
-
-};
+});
 
 // =====================================
 // GLOBAL VARIABLES
@@ -98,46 +25,6 @@ let currentSubject = "";
 
 let timer;
 let timeRemaining = 60;
-
-// =====================================
-// TAB SWITCHING
-// =====================================
-
-const signupTab =
-document.getElementById("signupTab");
-
-const loginTab =
-document.getElementById("loginTab");
-
-const signupForm =
-document.getElementById("signupForm");
-
-const loginForm =
-document.getElementById("loginForm");
-
-signupTab.addEventListener("click", () => {
-
-    signupForm.classList.remove("hidden");
-
-    loginForm.classList.add("hidden");
-
-    signupTab.classList.add("active");
-
-    loginTab.classList.remove("active");
-
-});
-
-loginTab.addEventListener("click", () => {
-
-    loginForm.classList.remove("hidden");
-
-    signupForm.classList.add("hidden");
-
-    loginTab.classList.add("active");
-
-    signupTab.classList.remove("active");
-
-});
 
 // =====================================
 // LOAD USERS
@@ -275,9 +162,9 @@ function login() {
 
 function logout() {
 
-    currentUser = null;
-
     clearInterval(timer);
+
+    currentUser = null;
 
     document.getElementById(
         "dashboard"
@@ -495,8 +382,6 @@ function submitQuiz() {
         "result"
     ).innerText =
     `You scored ${score}/${questions.length}`;
-
-    // SAVE PERFORMANCE
 
     if (
         !usersData[currentUser]
