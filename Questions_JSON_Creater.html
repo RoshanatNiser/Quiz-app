@@ -1,8 +1,285 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-    // =====================================
-    // DATA STRUCTURE
-    // =====================================
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Questions JSON Creator</title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+            padding: 20px;
+
+            background: #f0f2f5;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+        }
+
+        .card {
+
+            background: white;
+
+            padding: 20px;
+
+            margin-bottom: 25px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        }
+
+        h1, h2, h3 {
+
+            margin-top: 0;
+
+        }
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 15px;
+
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+
+            box-sizing: border-box;
+
+            font-size: 15px;
+
+        }
+
+        textarea {
+
+            min-height: 100px;
+
+            resize: vertical;
+
+        }
+
+        button {
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            background: #007bff;
+
+            color: white;
+
+            font-size: 15px;
+
+        }
+
+        button:hover {
+
+            background: #0056b3;
+
+        }
+
+        .button-group {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .question-preview {
+
+            background: #fafafa;
+
+            border: 1px solid #ddd;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-top: 10px;
+
+        }
+
+        .correct {
+
+            color: green;
+
+            font-weight: bold;
+
+        }
+
+        #jsonOutput {
+
+            min-height: 350px;
+
+            font-family: monospace;
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- CREATE QUIZ -->
+
+    <div class="card">
+
+        <h1>Questions JSON Creator</h1>
+
+        <h2>Create Quiz</h2>
+
+        <input type="text"
+               id="quizInput"
+               placeholder="Example: Quiz-1">
+
+        <button onclick="addQuiz()">
+            Add Quiz
+        </button>
+
+    </div>
+
+    <!-- CREATE SUBJECT -->
+
+    <div class="card">
+
+        <h2>Create Subject</h2>
+
+        <select id="quizSelect"></select>
+
+        <input type="text"
+               id="subjectInput"
+               placeholder="Example: Physics">
+
+        <button onclick="addSubject()">
+            Add Subject
+        </button>
+
+    </div>
+
+    <!-- ADD QUESTION -->
+
+    <div class="card">
+
+        <h2>Add Question</h2>
+
+        <select id="questionQuiz"></select>
+
+        <select id="questionSubject"></select>
+
+        <textarea id="questionText"
+                  placeholder="Enter Question"></textarea>
+
+        <input type="text"
+               id="option1"
+               placeholder="Option 1">
+
+        <input type="text"
+               id="option2"
+               placeholder="Option 2">
+
+        <input type="text"
+               id="option3"
+               placeholder="Option 3">
+
+        <input type="text"
+               id="option4"
+               placeholder="Option 4">
+
+        <select id="correctOption">
+
+            <option value="">
+                Select Correct Answer
+            </option>
+
+            <option value="1">
+                Option 1
+            </option>
+
+            <option value="2">
+                Option 2
+            </option>
+
+            <option value="3">
+                Option 3
+            </option>
+
+            <option value="4">
+                Option 4
+            </option>
+
+        </select>
+
+        <button onclick="addQuestion()">
+            Add Question
+        </button>
+
+    </div>
+
+    <!-- PREVIEW -->
+
+    <div class="card">
+
+        <h2>Questions Preview</h2>
+
+        <div id="previewArea"></div>
+
+    </div>
+
+    <!-- GENERATED JSON -->
+
+    <div class="card">
+
+        <h2>Generated questions.json</h2>
+
+        <textarea id="jsonOutput"
+                  readonly></textarea>
+
+        <div class="button-group">
+
+            <button onclick="copyJSON()">
+                Copy JSON
+            </button>
+
+            <button onclick="downloadJSON()">
+                Download JSON
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
 
     let quizData = {};
 
@@ -13,9 +290,9 @@
     function addQuiz() {
 
         const quiz =
-            document.getElementById("quizInput")
-            .value
-            .trim();
+            document.getElementById(
+                "quizInput"
+            ).value.trim();
 
         if (!quiz) {
 
@@ -35,8 +312,9 @@
 
         quizData[quiz] = {};
 
-        document.getElementById("quizInput")
-            .value = "";
+        document.getElementById(
+            "quizInput"
+        ).value = "";
 
         updateQuizDropdowns();
 
@@ -53,13 +331,14 @@
     function addSubject() {
 
         const quiz =
-            document.getElementById("quizSelect")
-            .value;
+            document.getElementById(
+                "quizSelect"
+            ).value;
 
         const subject =
-            document.getElementById("subjectInput")
-            .value
-            .trim();
+            document.getElementById(
+                "subjectInput"
+            ).value.trim();
 
         if (!quiz) {
 
@@ -87,8 +366,9 @@
 
         quizData[quiz][subject] = [];
 
-        document.getElementById("subjectInput")
-            .value = "";
+        document.getElementById(
+            "subjectInput"
+        ).value = "";
 
         updateSubjectDropdowns();
 
@@ -105,45 +385,50 @@
     function addQuestion() {
 
         const quiz =
-            document.getElementById("questionQuiz")
-            .value;
+            document.getElementById(
+                "questionQuiz"
+            ).value;
 
         const subject =
-            document.getElementById("questionSubject")
-            .value;
+            document.getElementById(
+                "questionSubject"
+            ).value;
 
         const question =
-            document.getElementById("questionText")
-            .value
-            .trim();
+            document.getElementById(
+                "questionText"
+            ).value.trim();
 
         const option1 =
-            document.getElementById("option1")
-            .value
-            .trim();
+            document.getElementById(
+                "option1"
+            ).value.trim();
 
         const option2 =
-            document.getElementById("option2")
-            .value
-            .trim();
+            document.getElementById(
+                "option2"
+            ).value.trim();
 
         const option3 =
-            document.getElementById("option3")
-            .value
-            .trim();
+            document.getElementById(
+                "option3"
+            ).value.trim();
 
         const option4 =
-            document.getElementById("option4")
-            .value
-            .trim();
+            document.getElementById(
+                "option4"
+            ).value.trim();
 
         const correct =
-            document.getElementById("correctOption")
-            .value;
+            document.getElementById(
+                "correctOption"
+            ).value;
 
         if (!quiz || !subject) {
 
-            alert("Select quiz and subject");
+            alert(
+                "Select quiz and subject"
+            );
 
             return;
 
@@ -172,7 +457,9 @@
 
         if (!correct) {
 
-            alert("Select correct answer");
+            alert(
+                "Select correct answer"
+            );
 
             return;
 
@@ -216,10 +503,14 @@
     function updateQuizDropdowns() {
 
         const quizSelect =
-            document.getElementById("quizSelect");
+            document.getElementById(
+                "quizSelect"
+            );
 
         const questionQuiz =
-            document.getElementById("questionQuiz");
+            document.getElementById(
+                "questionQuiz"
+            );
 
         quizSelect.innerHTML =
             `<option value="">
@@ -234,22 +525,30 @@
         for (let quiz in quizData) {
 
             const option1 =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
             option1.value = quiz;
 
             option1.innerText = quiz;
 
-            quizSelect.appendChild(option1);
+            quizSelect.appendChild(
+                option1
+            );
 
             const option2 =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
             option2.value = quiz;
 
             option2.innerText = quiz;
 
-            questionQuiz.appendChild(option2);
+            questionQuiz.appendChild(
+                option2
+            );
 
         }
 
@@ -262,11 +561,14 @@
     function updateSubjectDropdowns() {
 
         const quiz =
-            document.getElementById("questionQuiz")
-            .value;
+            document.getElementById(
+                "questionQuiz"
+            ).value;
 
         const subjectDropdown =
-            document.getElementById("questionSubject");
+            document.getElementById(
+                "questionSubject"
+            );
 
         subjectDropdown.innerHTML =
             `<option value="">
@@ -275,23 +577,31 @@
 
         if (!quiz) return;
 
-        for (let subject in quizData[quiz]) {
+        for (
+            let subject
+            in quizData[quiz]
+        ) {
 
             const option =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
             option.value = subject;
 
             option.innerText = subject;
 
-            subjectDropdown.appendChild(option);
+            subjectDropdown
+                .appendChild(option);
 
         }
 
     }
 
     document
-        .getElementById("questionQuiz")
+        .getElementById(
+            "questionQuiz"
+        )
         .addEventListener(
             "change",
             updateSubjectDropdowns
@@ -421,7 +731,9 @@
         for (let quiz in quizData) {
 
             const quizDiv =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             quizDiv.innerHTML =
                 `<h2>${quiz}</h2>`;
@@ -476,10 +788,8 @@
                     questionDiv.innerHTML = `
 
                         <strong>
-
                             Q${index + 1}.
                             ${q.question}
-
                         </strong>
 
                         ${optionsHTML}
@@ -507,3 +817,6 @@
     }
 
 </script>
+
+</body>
+</html>
