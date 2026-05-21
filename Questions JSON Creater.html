@@ -1,295 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questions JSON Creator</title>
-
-    <style>
-
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h1, h2 {
-            margin-top: 0;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 15px;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background: #007bff;
-            color: white;
-            font-size: 15px;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .question-preview {
-            background: #fafafa;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
-        .correct {
-            color: green;
-            font-weight: bold;
-        }
-
-        #jsonOutput {
-            min-height: 350px;
-            font-family: monospace;
-        }
-
-    </style>
-
-</head>
-<body>
-
-<div class="container">
-
-    <div class="card">
-
-        <h1>Questions JSON Creator</h1>
-
-        <h2>Create Subject</h2>
-
-        <input type="text"
-               id="subjectInput"
-               placeholder="Example: physics">
-
-        <button onclick="addSubject()">
-            Add Subject
-        </button>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Create Quiz</h2>
-
-        <select id="subjectSelect"></select>
-
-        <input type="text"
-               id="quizInput"
-               placeholder="Example: quiz1">
-
-        <button onclick="addQuiz()">
-            Add Quiz
-        </button>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Add Question</h2>
-
-        <select id="questionSubject"></select>
-
-        <select id="questionQuiz"></select>
-
-        <textarea id="questionText"
-                  placeholder="Enter Question"></textarea>
-
-        <input type="text"
-               id="option1"
-               placeholder="Option 1">
-
-        <input type="text"
-               id="option2"
-               placeholder="Option 2">
-
-        <input type="text"
-               id="option3"
-               placeholder="Option 3">
-
-        <input type="text"
-               id="option4"
-               placeholder="Option 4">
-
-        <select id="correctOption">
-
-            <option value="">
-                Select Correct Option
-            </option>
-
-            <option value="1">
-                Option 1
-            </option>
-
-            <option value="2">
-                Option 2
-            </option>
-
-            <option value="3">
-                Option 3
-            </option>
-
-            <option value="4">
-                Option 4
-            </option>
-
-        </select>
-
-        <button onclick="addQuestion()">
-            Add Question
-        </button>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Questions Preview</h2>
-
-        <div id="previewArea"></div>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Generated questions.json</h2>
-
-        <textarea id="jsonOutput" readonly></textarea>
-
-        <div class="button-group">
-
-            <button onclick="copyJSON()">
-                Copy JSON
-            </button>
-
-            <button onclick="downloadJSON()">
-                Download JSON
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
 <script>
+
+    // =====================================
+    // DATA STRUCTURE
+    // =====================================
 
     let quizData = {};
 
-    // ADD SUBJECT
-
-    function addSubject() {
-
-        const subject =
-            document.getElementById("subjectInput")
-            .value
-            .trim()
-            .toLowerCase();
-
-        if (!subject) {
-
-            alert("Enter subject name");
-            return;
-
-        }
-
-        if (quizData[subject]) {
-
-            alert("Subject already exists");
-            return;
-
-        }
-
-        quizData[subject] = {};
-
-        document.getElementById("subjectInput").value = "";
-
-        updateSubjectDropdowns();
-
-        updateJSON();
-
-        renderPreview();
-
-    }
-
+    // =====================================
     // ADD QUIZ
+    // =====================================
 
     function addQuiz() {
-
-        const subject =
-            document.getElementById("subjectSelect")
-            .value;
 
         const quiz =
             document.getElementById("quizInput")
             .value
-            .trim()
-            .toLowerCase();
-
-        if (!subject) {
-
-            alert("Select subject");
-            return;
-
-        }
+            .trim();
 
         if (!quiz) {
 
             alert("Enter quiz name");
+
             return;
 
         }
 
-        if (quizData[subject][quiz]) {
+        if (quizData[quiz]) {
 
             alert("Quiz already exists");
+
             return;
 
         }
 
-        quizData[subject][quiz] = [];
+        quizData[quiz] = {};
 
-        document.getElementById("quizInput").value = "";
+        document.getElementById("quizInput")
+            .value = "";
 
         updateQuizDropdowns();
 
@@ -299,16 +46,70 @@
 
     }
 
+    // =====================================
+    // ADD SUBJECT
+    // =====================================
+
+    function addSubject() {
+
+        const quiz =
+            document.getElementById("quizSelect")
+            .value;
+
+        const subject =
+            document.getElementById("subjectInput")
+            .value
+            .trim();
+
+        if (!quiz) {
+
+            alert("Select quiz");
+
+            return;
+
+        }
+
+        if (!subject) {
+
+            alert("Enter subject");
+
+            return;
+
+        }
+
+        if (quizData[quiz][subject]) {
+
+            alert("Subject already exists");
+
+            return;
+
+        }
+
+        quizData[quiz][subject] = [];
+
+        document.getElementById("subjectInput")
+            .value = "";
+
+        updateSubjectDropdowns();
+
+        updateJSON();
+
+        renderPreview();
+
+    }
+
+    // =====================================
     // ADD QUESTION
+    // =====================================
 
     function addQuestion() {
 
-        const subject =
-            document.getElementById("questionSubject")
-            .value;
-
         const quiz =
             document.getElementById("questionQuiz")
+            .value;
+
+        const subject =
+            document.getElementById("questionSubject")
             .value;
 
         const question =
@@ -340,9 +141,10 @@
             document.getElementById("correctOption")
             .value;
 
-        if (!subject || !quiz) {
+        if (!quiz || !subject) {
 
-            alert("Select subject and quiz");
+            alert("Select quiz and subject");
+
             return;
 
         }
@@ -350,6 +152,7 @@
         if (!question) {
 
             alert("Enter question");
+
             return;
 
         }
@@ -362,6 +165,7 @@
         ) {
 
             alert("Fill all options");
+
             return;
 
         }
@@ -369,29 +173,33 @@
         if (!correct) {
 
             alert("Select correct answer");
+
             return;
 
         }
 
         const options = [
+
             option1,
             option2,
             option3,
             option4
+
         ];
 
         const answer =
             options[correct - 1];
 
-        quizData[subject][quiz].push({
+        quizData[quiz][subject]
+            .push({
 
-            question: question,
+                question: question,
 
-            options: options,
+                options: options,
 
-            answer: answer
+                answer: answer
 
-        });
+            });
 
         clearQuestionFields();
 
@@ -401,111 +209,135 @@
 
     }
 
-    // UPDATE SUBJECT DROPDOWNS
+    // =====================================
+    // UPDATE QUIZ DROPDOWNS
+    // =====================================
 
-    function updateSubjectDropdowns() {
+    function updateQuizDropdowns() {
 
-        const subjectSelect =
-            document.getElementById("subjectSelect");
+        const quizSelect =
+            document.getElementById("quizSelect");
 
-        const questionSubject =
-            document.getElementById("questionSubject");
+        const questionQuiz =
+            document.getElementById("questionQuiz");
 
-        subjectSelect.innerHTML =
-            `<option value="">Select Subject</option>`;
+        quizSelect.innerHTML =
+            `<option value="">
+                Select Quiz
+            </option>`;
 
-        questionSubject.innerHTML =
-            `<option value="">Select Subject</option>`;
+        questionQuiz.innerHTML =
+            `<option value="">
+                Select Quiz
+            </option>`;
 
-        for (let subject in quizData) {
+        for (let quiz in quizData) {
 
             const option1 =
                 document.createElement("option");
 
-            option1.value = subject;
-            option1.innerText = subject;
+            option1.value = quiz;
 
-            subjectSelect.appendChild(option1);
+            option1.innerText = quiz;
+
+            quizSelect.appendChild(option1);
 
             const option2 =
                 document.createElement("option");
 
-            option2.value = subject;
-            option2.innerText = subject;
+            option2.value = quiz;
 
-            questionSubject.appendChild(option2);
+            option2.innerText = quiz;
+
+            questionQuiz.appendChild(option2);
 
         }
 
     }
 
-    // UPDATE QUIZ DROPDOWNS
+    // =====================================
+    // UPDATE SUBJECT DROPDOWNS
+    // =====================================
 
-    function updateQuizDropdowns() {
+    function updateSubjectDropdowns() {
 
-        const subject =
-            document.getElementById("questionSubject")
+        const quiz =
+            document.getElementById("questionQuiz")
             .value;
 
-        const questionQuiz =
-            document.getElementById("questionQuiz");
+        const subjectDropdown =
+            document.getElementById("questionSubject");
 
-        questionQuiz.innerHTML =
-            `<option value="">Select Quiz</option>`;
+        subjectDropdown.innerHTML =
+            `<option value="">
+                Select Subject
+            </option>`;
 
-        if (!subject) return;
+        if (!quiz) return;
 
-        for (let quiz in quizData[subject]) {
+        for (let subject in quizData[quiz]) {
 
             const option =
                 document.createElement("option");
 
-            option.value = quiz;
-            option.innerText = quiz;
+            option.value = subject;
 
-            questionQuiz.appendChild(option);
+            option.innerText = subject;
+
+            subjectDropdown.appendChild(option);
 
         }
 
     }
 
     document
-        .getElementById("questionSubject")
+        .getElementById("questionQuiz")
         .addEventListener(
             "change",
-            updateQuizDropdowns
+            updateSubjectDropdowns
         );
 
+    // =====================================
     // UPDATE JSON
+    // =====================================
 
     function updateJSON() {
 
-        document.getElementById("jsonOutput")
-            .value =
-            JSON.stringify(
-                quizData,
-                null,
-                2
-            );
+        document.getElementById(
+            "jsonOutput"
+        ).value =
+
+        JSON.stringify(
+            quizData,
+            null,
+            2
+        );
 
     }
 
+    // =====================================
     // COPY JSON
+    // =====================================
 
     function copyJSON() {
 
         const output =
-            document.getElementById("jsonOutput");
+            document.getElementById(
+                "jsonOutput"
+            );
 
         output.select();
 
-        navigator.clipboard.writeText(output.value);
+        navigator.clipboard
+            .writeText(output.value);
 
         alert("JSON copied");
 
     }
 
+    // =====================================
     // DOWNLOAD JSON
+    // =====================================
 
     function downloadJSON() {
 
@@ -520,7 +352,8 @@
             new Blob(
                 [json],
                 {
-                    type: "application/json"
+                    type:
+                    "application/json"
                 }
             );
 
@@ -540,51 +373,79 @@
 
     }
 
+    // =====================================
     // CLEAR FIELDS
+    // =====================================
 
     function clearQuestionFields() {
 
-        document.getElementById("questionText").value = "";
+        document.getElementById(
+            "questionText"
+        ).value = "";
 
-        document.getElementById("option1").value = "";
-        document.getElementById("option2").value = "";
-        document.getElementById("option3").value = "";
-        document.getElementById("option4").value = "";
+        document.getElementById(
+            "option1"
+        ).value = "";
 
-        document.getElementById("correctOption").value = "";
+        document.getElementById(
+            "option2"
+        ).value = "";
+
+        document.getElementById(
+            "option3"
+        ).value = "";
+
+        document.getElementById(
+            "option4"
+        ).value = "";
+
+        document.getElementById(
+            "correctOption"
+        ).value = "";
 
     }
 
+    // =====================================
     // PREVIEW
+    // =====================================
 
     function renderPreview() {
 
         const preview =
-            document.getElementById("previewArea");
+            document.getElementById(
+                "previewArea"
+            );
 
         preview.innerHTML = "";
 
-        for (let subject in quizData) {
+        for (let quiz in quizData) {
 
-            const subjectDiv =
+            const quizDiv =
                 document.createElement("div");
 
-            subjectDiv.innerHTML =
-                `<h2>${subject.toUpperCase()}</h2>`;
+            quizDiv.innerHTML =
+                `<h2>${quiz}</h2>`;
 
-            for (let quiz in quizData[subject]) {
+            for (
+                let subject
+                in quizData[quiz]
+            ) {
 
-                const quizDiv =
-                    document.createElement("div");
+                const subjectDiv =
+                    document.createElement(
+                        "div"
+                    );
 
-                quizDiv.innerHTML =
-                    `<h3>${quiz.toUpperCase()}</h3>`;
+                subjectDiv.innerHTML =
+                    `<h3>${subject}</h3>`;
 
-                quizData[subject][quiz]
+                quizData[quiz][subject]
                     .forEach((q, index) => {
 
                     const questionDiv =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
 
                     questionDiv.className =
                         "question-preview";
@@ -597,37 +458,52 @@
                             option === q.answer;
 
                         optionsHTML += `
-                            <div class="${correct ? 'correct' : ''}">
+
+                            <div class="${
+                                correct
+                                ? 'correct'
+                                : ''
+                            }">
+
                                 ${option}
+
                             </div>
+
                         `;
 
                     });
 
                     questionDiv.innerHTML = `
+
                         <strong>
+
                             Q${index + 1}.
                             ${q.question}
+
                         </strong>
 
                         ${optionsHTML}
+
                     `;
 
-                    quizDiv.appendChild(questionDiv);
+                    subjectDiv.appendChild(
+                        questionDiv
+                    );
 
                 });
 
-                subjectDiv.appendChild(quizDiv);
+                quizDiv.appendChild(
+                    subjectDiv
+                );
 
             }
 
-            preview.appendChild(subjectDiv);
+            preview.appendChild(
+                quizDiv
+            );
 
         }
 
     }
 
 </script>
-
-</body>
-</html>
