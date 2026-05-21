@@ -1,26 +1,128 @@
-// script.js
+// =====================================
+// QUESTIONS DATA
+// =====================================
 
-let quizData = {};
+const quizData = {
+
+    "Quiz-1": {
+
+        "Physics": [
+
+            {
+                "question": "SI unit of force?",
+                "options": [
+                    "Newton",
+                    "Joule",
+                    "Watt",
+                    "Pascal"
+                ],
+                "answer": "Newton"
+            },
+
+            {
+                "question": "Speed of light?",
+                "options": [
+                    "3x10^8",
+                    "300",
+                    "1000",
+                    "1500"
+                ],
+                "answer": "3x10^8"
+            }
+
+        ],
+
+        "Chemistry": [
+
+            {
+                "question": "Chemical symbol of Oxygen?",
+                "options": [
+                    "O",
+                    "H",
+                    "N",
+                    "C"
+                ],
+                "answer": "O"
+            }
+
+        ]
+
+    },
+
+    "Quiz-2": {
+
+        "Math": [
+
+            {
+                "question": "2 + 2 = ?",
+                "options": [
+                    "3",
+                    "4",
+                    "5",
+                    "6"
+                ],
+                "answer": "4"
+            }
+
+        ],
+
+        "Biology": [
+
+            {
+                "question": "Basic unit of life?",
+                "options": [
+                    "Cell",
+                    "Atom",
+                    "Protein",
+                    "Organ"
+                ],
+                "answer": "Cell"
+            }
+
+        ]
+
+    }
+
+};
+
+// =====================================
+// GLOBAL VARIABLES
+// =====================================
+
+let usersData = {};
 
 let currentUser = null;
 
+let currentQuiz = "";
 let currentSubject = "";
-let currentQuizName = "";
 
+let timer;
+let timeRemaining = 60;
+
+// =====================================
 // TAB SWITCHING
+// =====================================
 
-const signupTab = document.getElementById("signupTab");
-const loginTab = document.getElementById("loginTab");
+const signupTab =
+document.getElementById("signupTab");
 
-const signupForm = document.getElementById("signupForm");
-const loginForm = document.getElementById("loginForm");
+const loginTab =
+document.getElementById("loginTab");
+
+const signupForm =
+document.getElementById("signupForm");
+
+const loginForm =
+document.getElementById("loginForm");
 
 signupTab.addEventListener("click", () => {
 
     signupForm.classList.remove("hidden");
+
     loginForm.classList.add("hidden");
 
     signupTab.classList.add("active");
+
     loginTab.classList.remove("active");
 
 });
@@ -28,170 +130,216 @@ signupTab.addEventListener("click", () => {
 loginTab.addEventListener("click", () => {
 
     loginForm.classList.remove("hidden");
+
     signupForm.classList.add("hidden");
 
     loginTab.classList.add("active");
+
     signupTab.classList.remove("active");
 
 });
 
-// LOAD QUESTIONS JSON
+// =====================================
+// LOAD USERS
+// =====================================
 
-fetch("questions.json")
-    .then(response => response.json())
-    .then(data => {
+function loadUsers() {
 
-        quizData = data;
+    usersData =
+        JSON.parse(
+            localStorage.getItem("quizUsers")
+        ) || {};
 
-    });
+}
 
+loadUsers();
+
+// =====================================
+// SAVE USERS
+// =====================================
+
+function saveUsers() {
+
+    localStorage.setItem(
+        "quizUsers",
+        JSON.stringify(usersData)
+    );
+
+}
+
+// =====================================
 // SIGNUP
+// =====================================
 
 function signup() {
 
     const username =
-        document.getElementById("signupUsername").value.trim();
+        document.getElementById(
+            "signupUsername"
+        ).value.trim();
 
     const password =
-        document.getElementById("signupPassword").value.trim();
+        document.getElementById(
+            "signupPassword"
+        ).value.trim();
 
     if (!username || !password) {
 
-        alert("Please fill all fields");
+        alert("Fill all fields");
+
         return;
+
     }
 
-    let users =
-        JSON.parse(localStorage.getItem("users")) || {};
+    if (usersData[username]) {
 
-    if (users[username]) {
+        alert("User already exists");
 
-        alert("Username already exists");
         return;
+
     }
 
-    users[username] = {
+    usersData[username] = {
 
         password: password,
 
-        scores: {}
+        performance: {}
 
     };
 
-    localStorage.setItem(
-        "users",
-        JSON.stringify(users)
-    );
+    saveUsers();
 
     alert("Account created successfully");
 
 }
 
+// =====================================
 // LOGIN
+// =====================================
 
 function login() {
 
     const username =
-        document.getElementById("loginUsername").value.trim();
+        document.getElementById(
+            "loginUsername"
+        ).value.trim();
 
     const password =
-        document.getElementById("loginPassword").value.trim();
+        document.getElementById(
+            "loginPassword"
+        ).value.trim();
 
-    let users =
-        JSON.parse(localStorage.getItem("users")) || {};
-
-    if (!users[username]) {
+    if (!usersData[username]) {
 
         alert("User not found");
+
         return;
+
     }
 
-    if (users[username].password !== password) {
+    if (
+        usersData[username].password
+        !== password
+    ) {
 
-        alert("Incorrect password");
+        alert("Wrong password");
+
         return;
+
     }
 
     currentUser = username;
 
-    document.getElementById("authContainer")
-        .classList.add("hidden");
+    document.getElementById(
+        "authContainer"
+    ).classList.add("hidden");
 
-    document.getElementById("dashboard")
-        .classList.remove("hidden");
+    document.getElementById(
+        "dashboard"
+    ).classList.remove("hidden");
 
-    document.getElementById("welcomeText")
-        .innerText = `Welcome ${username}`;
+    document.getElementById(
+        "welcomeText"
+    ).innerText =
+    `Welcome ${username}`;
 
-    renderSubjects();
+    renderQuizNavigation();
 
     loadScores();
 
 }
 
+// =====================================
 // LOGOUT
+// =====================================
 
 function logout() {
 
     currentUser = null;
 
-    document.getElementById("dashboard")
-        .classList.add("hidden");
+    clearInterval(timer);
 
-    document.getElementById("quizContainer")
-        .classList.add("hidden");
+    document.getElementById(
+        "dashboard"
+    ).classList.add("hidden");
 
-    document.getElementById("authContainer")
-        .classList.remove("hidden");
+    document.getElementById(
+        "quizContainer"
+    ).classList.add("hidden");
+
+    document.getElementById(
+        "authContainer"
+    ).classList.remove("hidden");
 
 }
 
-// RENDER SUBJECTS + QUIZZES
+// =====================================
+// QUIZ NAVIGATION
+// =====================================
 
-function renderSubjects() {
+function renderQuizNavigation() {
 
     const container =
-        document.getElementById("subjectContainer");
+        document.getElementById(
+            "quizNavigation"
+        );
 
     container.innerHTML = "";
 
-    for (let subject in quizData) {
+    for (let quizName in quizData) {
 
         const section =
             document.createElement("div");
 
-        const title =
-            document.createElement("h2");
+        section.innerHTML =
+        `<h2>${quizName}</h2>`;
 
-        title.innerText =
-            subject.toUpperCase();
-
-        section.appendChild(title);
-
-        const quizGrid =
+        const grid =
             document.createElement("div");
 
-        quizGrid.className = "quiz-grid";
+        grid.className = "quiz-grid";
 
-        for (let quizName in quizData[subject]) {
+        for (let subject in quizData[quizName]) {
 
             const btn =
                 document.createElement("button");
 
-            btn.innerText =
-                quizName.toUpperCase();
+            btn.innerText = subject;
 
             btn.onclick = () => {
 
-                loadQuiz(subject, quizName);
+                loadQuiz(
+                    quizName,
+                    subject
+                );
 
             };
 
-            quizGrid.appendChild(btn);
+            grid.appendChild(btn);
 
         }
 
-        section.appendChild(quizGrid);
+        section.appendChild(grid);
 
         container.appendChild(section);
 
@@ -199,30 +347,40 @@ function renderSubjects() {
 
 }
 
+// =====================================
 // LOAD QUIZ
+// =====================================
 
-function loadQuiz(subject, quizName) {
+function loadQuiz(quizName, subject) {
+
+    currentQuiz = quizName;
 
     currentSubject = subject;
-    currentQuizName = quizName;
 
-    document.getElementById("dashboard")
-        .classList.add("hidden");
+    document.getElementById(
+        "dashboard"
+    ).classList.add("hidden");
 
-    document.getElementById("quizContainer")
-        .classList.remove("hidden");
+    document.getElementById(
+        "quizContainer"
+    ).classList.remove("hidden");
 
-    document.getElementById("quizTitle")
-        .innerText =
-        `${subject.toUpperCase()} - ${quizName.toUpperCase()}`;
+    document.getElementById(
+        "quizTitle"
+    ).innerText =
+    `${quizName} - ${subject}`;
 
-    const questionArea =
-        document.getElementById("questionArea");
-
-    questionArea.innerHTML = "";
+    startTimer();
 
     const questions =
-        quizData[subject][quizName];
+        quizData[quizName][subject];
+
+    const questionArea =
+        document.getElementById(
+            "questionArea"
+        );
+
+    questionArea.innerHTML = "";
 
     questions.forEach((q, index) => {
 
@@ -236,40 +394,84 @@ function loadQuiz(subject, quizName) {
         q.options.forEach(option => {
 
             optionsHTML += `
+
                 <label class="option">
+
                     <input type="radio"
                            name="q${index}"
                            value="${option}">
+
                     ${option}
+
                 </label>
+
             `;
 
         });
 
         div.innerHTML = `
+
             <h3>
-                Q${index + 1}. ${q.question}
+                Q${index + 1}.
+                ${q.question}
             </h3>
 
             ${optionsHTML}
+
         `;
 
         questionArea.appendChild(div);
 
     });
 
-    document.getElementById("result").innerHTML = "";
+}
+
+// =====================================
+// TIMER
+// =====================================
+
+function startTimer() {
+
+    clearInterval(timer);
+
+    timeRemaining = 60;
+
+    document.getElementById(
+        "timer"
+    ).innerText = timeRemaining;
+
+    timer = setInterval(() => {
+
+        timeRemaining--;
+
+        document.getElementById(
+            "timer"
+        ).innerText = timeRemaining;
+
+        if (timeRemaining <= 0) {
+
+            clearInterval(timer);
+
+            submitQuiz();
+
+        }
+
+    }, 1000);
 
 }
 
+// =====================================
 // SUBMIT QUIZ
+// =====================================
 
 function submitQuiz() {
+
+    clearInterval(timer);
 
     let score = 0;
 
     const questions =
-        quizData[currentSubject][currentQuizName];
+        quizData[currentQuiz][currentSubject];
 
     questions.forEach((q, index) => {
 
@@ -278,8 +480,10 @@ function submitQuiz() {
                 `input[name="q${index}"]:checked`
             );
 
-        if (selected &&
-            selected.value === q.answer) {
+        if (
+            selected &&
+            selected.value === q.answer
+        ) {
 
             score++;
 
@@ -287,93 +491,106 @@ function submitQuiz() {
 
     });
 
-    document.getElementById("result")
-        .innerHTML =
-        `You scored ${score} out of ${questions.length}`;
+    document.getElementById(
+        "result"
+    ).innerText =
+    `You scored ${score}/${questions.length}`;
 
-    let users =
-        JSON.parse(localStorage.getItem("users")) || {};
+    // SAVE PERFORMANCE
 
-    if (!users[currentUser].scores[currentSubject]) {
+    if (
+        !usersData[currentUser]
+        .performance[currentQuiz]
+    ) {
 
-        users[currentUser].scores[currentSubject] = {};
+        usersData[currentUser]
+        .performance[currentQuiz] = {};
 
     }
 
-    users[currentUser]
-        .scores[currentSubject][currentQuizName] = score;
+    usersData[currentUser]
+    .performance[currentQuiz][currentSubject]
+    = score;
 
-    localStorage.setItem(
-        "users",
-        JSON.stringify(users)
-    );
+    saveUsers();
 
     loadScores();
 
 }
 
+// =====================================
 // LOAD SCORES
+// =====================================
 
 function loadScores() {
 
-    let users =
-        JSON.parse(localStorage.getItem("users")) || {};
-
     const scoreBoard =
-        document.getElementById("scoreBoard");
+        document.getElementById(
+            "scoreBoard"
+        );
 
     scoreBoard.innerHTML = "";
 
-    const scores =
-        users[currentUser].scores;
+    const performance =
+        usersData[currentUser]
+        .performance;
 
-    for (let subject in scores) {
+    for (let quiz in performance) {
 
-        const subjectDiv =
+        const quizDiv =
             document.createElement("div");
 
-        const title =
-            document.createElement("h3");
+        quizDiv.innerHTML =
+        `<h3>${quiz}</h3>`;
 
-        title.innerText =
-            subject.toUpperCase();
-
-        subjectDiv.appendChild(title);
-
-        for (let quiz in scores[subject]) {
+        for (
+            let subject
+            in performance[quiz]
+        ) {
 
             const div =
                 document.createElement("div");
 
-            div.className = "score-item";
+            div.className =
+                "score-item";
 
             div.innerHTML = `
-                <strong>${quiz.toUpperCase()}</strong>
+
+                <strong>
+                    ${subject}
+                </strong>
+
                 <br>
+
                 Marks:
-                ${scores[subject][quiz]}
+                ${performance[quiz][subject]}
+
             `;
 
-            subjectDiv.appendChild(div);
+            quizDiv.appendChild(div);
 
         }
 
-        scoreBoard.appendChild(subjectDiv);
+        scoreBoard.appendChild(quizDiv);
 
     }
 
 }
 
-// BACK TO DASHBOARD
+// =====================================
+// BACK
+// =====================================
 
 function backToDashboard() {
 
-    document.getElementById("quizContainer")
-        .classList.add("hidden");
+    clearInterval(timer);
 
-    document.getElementById("dashboard")
-        .classList.remove("hidden");
+    document.getElementById(
+        "quizContainer"
+    ).classList.add("hidden");
 
-    loadScores();
+    document.getElementById(
+        "dashboard"
+    ).classList.remove("hidden");
 
 }
