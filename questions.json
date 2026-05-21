@@ -1,0 +1,116 @@
+{
+  "physics": {
+    "1": [
+      {
+        "question": "Which of the following phenomena is responsible for the twinkling of stars?",
+        "options": [
+          "Total internal reflection",
+          "Atmospheric refraction",
+          "Scattering of light",
+          "Interference of light"
+        ],
+        "answer": "Atmospheric refraction"
+      },
+      {
+        "question": "The escape velocity from the Earth's surface is approximately:",
+        "options": [
+          "A) $9.8\\text{ km/s}$",
+          "B) $11.2\\text{ km/s}$",
+          "C) $5.6\\text{ km/s}$",
+          "D) $42.1\\text{ km/s}$"
+        ],
+        "answer": "B) $11.2\\text{ km/s}$"
+      }
+    ],
+    "2": [
+      {
+        "question": "If the distance between two masses is doubled, the gravitational force between them becomes:",
+        "options": [
+          "A) Double",
+          "B) Half",
+          "C) Four times",
+          "D) One-fourth"
+        ],
+        "answer": "D) One-fourth"
+      }
+    ],
+    "3": [
+      {
+        "question": "What is the SI unit of electrical conductivity?",
+        "options": [
+          "A) Ohm-meter",
+          "B) Siemens per meter (S/m)",
+          "C) Tesla",
+          "D) Henry"
+        ],
+        "answer": "B) Siemens per meter (S/m)"
+      }
+    ]
+  },
+  "chemistry": {
+    "1": [
+      {
+        "question": "Which of the following is the most electronegative element in the periodic table?",
+        "options": [
+          "A) Oxygen",
+          "B) Chlorine",
+          "C) Fluorine",
+          "D) Nitrogen"
+        ],
+        "answer": "C) Fluorine"
+      }
+    ],
+    "2": [
+      {
+        "question": "What is the oxidation state of Chromium ($\\text{Cr}$) in Potassium Dichromate ($\\text{K}_2\\text{Cr}_2\\text{O}_7$)?",
+        "options": [
+          "A) +4",
+          "B) +5",
+          "C) +6",
+          "D) +7"
+        ],
+        "answer": "C) +6"
+      }
+    ]
+  },
+  "mathematics": {
+    "1": [
+      {
+        "question": "What is the value of $\\lim_{x \\to 0} \\frac{\\sin x}{x}$?",
+        "options": [
+          "A) 0",
+          "B) 1",
+          "C) $\\infty$",
+          "D) Undefined"
+        ],
+        "answer": "B) 1"
+      }
+    ],
+    "2": [
+      {
+        "question": "If a matrix $A$ is of order $2 \\times 3$ and matrix $B$ is of order $3 \\times 4$, what is the order of the matrix $AB$?",
+        "options": [
+          "A) $3 \\times 3$",
+          "B) $2 \\times 4$",
+          "C) $4 \\times 2$",
+          "D) The product cannot be calculated"
+        ],
+        "answer": "B) $2 \\times 4$"
+      }
+    ]
+  },
+  "biology": {
+    "1": [
+      {
+        "question": "Which organelle is known as the \"powerhouse of the cell\"?",
+        "options": [
+          "A) Golgi apparatus",
+          "B) Mitochondrion",
+          "C) Nucleus",
+          "D) Ribosome"
+        ],
+        "answer": "B) Mitochondrion"
+      }
+    ]
+  }
+}
