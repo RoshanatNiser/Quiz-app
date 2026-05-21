@@ -1,25 +1,39 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Quiz App</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
-    <!-- AUTH SECTION -->
-    <div class="container" id="authContainer">
+    <!-- AUTH -->
+
+    <div class="container"
+         id="authContainer">
 
         <div class="tabs">
-            <button id="signupTab" class="active">Sign Up</button>
-            <button id="loginTab">Login</button>
+
+            <button id="signupTab"
+                    class="active">
+                Sign Up
+            </button>
+
+            <button id="loginTab">
+                Login
+            </button>
+
         </div>
 
         <!-- SIGNUP -->
+
         <div id="signupForm">
 
             <h2>Create Account</h2>
@@ -39,7 +53,9 @@
         </div>
 
         <!-- LOGIN -->
-        <div id="loginForm" class="hidden">
+
+        <div id="loginForm"
+             class="hidden">
 
             <h2>Login</h2>
 
@@ -60,7 +76,9 @@
     </div>
 
     <!-- DASHBOARD -->
-    <div class="container hidden" id="dashboard">
+
+    <div class="container hidden"
+         id="dashboard">
 
         <div class="topbar">
 
@@ -74,35 +92,47 @@
 
         <h1>Quiz Navigation</h1>
 
-        <!-- SUBJECT + QUIZ LIST -->
-        <div id="subjectContainer"></div>
+        <div id="quizNavigation"></div>
 
         <hr>
 
-        <h2>Your Scores</h2>
+        <h2>Your Performance</h2>
 
         <div id="scoreBoard"></div>
 
     </div>
 
     <!-- QUIZ PAGE -->
-    <div class="container hidden" id="quizContainer">
+
+    <div class="container hidden"
+         id="quizContainer">
 
         <div class="topbar">
 
             <h2 id="quizTitle"></h2>
+
+            <div class="timer-box">
+
+                Time Left:
+                <span id="timer">60</span>s
+
+            </div>
+
+        </div>
+
+        <div id="questionArea"></div>
+
+        <div class="button-group">
+
+            <button onclick="submitQuiz()">
+                Submit Quiz
+            </button>
 
             <button onclick="backToDashboard()">
                 Back
             </button>
 
         </div>
-
-        <div id="questionArea"></div>
-
-        <button id="submitBtn" onclick="submitQuiz()">
-            Submit Quiz
-        </button>
 
         <div id="result"></div>
 
